@@ -16,16 +16,10 @@
 		<div class="collection"></div>
 	</div>	
 
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script type="text/javascript">
-
-
 		let product = document.querySelector('.product_list');
-
 		let cartI = document.querySelector('.collection')
-
-
-
 		let Cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 
@@ -41,11 +35,6 @@
 		{id:9,title:'yamakasi',price:80,total:1},
 		{id:10,title:'ananasa',price:33,total:1}
 		]
-
-
-
-
-
 
 		function tovari(){
 
@@ -68,8 +57,6 @@
 				</div>	
 
 				`
-
-
 			});
 		}
 
@@ -108,22 +95,16 @@
 					}else{
 						Cart.push(product);
 
-
-
 					}
 
 					console.log('cartProduct', cartProduct)
-
-
 
 					localStorage.setItem('cart', JSON.stringify(Cart));
 
 					korzina();
 					InpOnch();
 					TotalSum();
-
 				}
-
 
 			});
 
@@ -162,8 +143,6 @@
 
 					localStorage.setItem('cart', JSON.stringify(Cart));
 
-
-
 					korzina();
 					InpOnch();
 					TotalSum();
@@ -175,7 +154,6 @@
 		}
 
 
-
 		function korzina(){
 
 			cartI.innerHTML = '';
@@ -185,7 +163,6 @@
 				Cart.forEach(function(elem, index){
 
 					console.log('kart',elem)
-
 
 					cartI.innerHTML += 
 
@@ -206,7 +183,6 @@
 				})
 
 
-
 			}else{
 
 				cartI.innerHTML = `<h3>Cart is empty</h3>`
@@ -215,8 +191,6 @@
 			RemCard();
 
 		}
-
-
 
 		function InpOnch(){
 
@@ -257,31 +231,10 @@
 
 			console.log(total)
 
-
 			document.querySelector('.total_sum').textContent = `${total}`
-
-
-			
-
 		}
 
-
-		
-		
-
-
 		korzina()
-
-
-
-
-
-
-
-
-
-
-
 	</script>
 
 </body>

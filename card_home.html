@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+
+	<div class="container">
+		<h1>Store</h1>
+
+		<div class="product_list row"></div>
+		<hr>
+		<h1>Cart - total - <span class="total_sum">0 $</span></h1>
+
+		<div class="collection"></div>
+	</div>	
+
+
+	<script type="text/javascript">
+
+
+		let product = document.querySelector('.product_list');
+
+		let cartI = document.querySelector('.collection')
+
+
+
+		let Cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+
+		const Data = [
+		{id:1,title:'potata', price:11, total:1},
+		{id:2,title:'Orange',price:22,total:1},
+		{id:3,title:'Pear',price:50,total:1},
+		{id:4,title:'Berry',price:7,total:1},
+		{id:5,title:'Apple',price:13,total:1},
+		{id:6,title:'Nut',price:67,total:1},
+		{id:7,title:'Banana',price:42,total:1},
+		{id:8,title:'Tomat',price:9,total:1},
+		{id:9,title:'yamakasi',price:80,total:1},
+		{id:10,title:'ananasa',price:33,total:1}
+		]
+
+
+
+
+
+
+		function tovari(){
+
+			Data.forEach( function(elem, index) {
+
+
+				product.innerHTML +=
+
+				`
+				<div class="col s3 offset-s1">
+				<div class="card blue-grey darken-1">
+				<div class="card-content white-text">
+				<span class="card-title">${elem.title}</span>
+				<p>${elem.price} $</p>
+				</div>
+				<div class="card-action">
+				<button class="btn green add_btn" value="${ elem.id }">Add to card</button>
+				</div>
+				</div>
+				</div>	
+
+				`
+
+
+			});
+		}
+
+		tovari();
+
+		function AddCard () {
+
+			let addBtn = document.querySelectorAll('.add_btn');
+
+			addBtn.forEach(function(element){
+
+				element.onclick  = function(){
+
+
+					let product = Data.find(function(elem){
+
+						return	elem.id == element.value
+
+					});
+
+					console.log('Product', product);
+
+
+					let cartProduct = Cart.find(function(elem){
+
+						console.log(elem.id)
+
+						return elem.id == element.value
+
+					})
+
+
+					if(cartProduct){
+						cartProduct.total++
+
+					}else{
+						Cart.push(product);
+
+
+
+					}
+
+					console.log('cartProduct', cartProduct)
+
+
+
+					localStorage.setItem('cart', JSON.stringify(Cart));
+
+					korzina();
+					InpOnch();
+					TotalSum();
+
+				}
+
+
+			});
+
+		}
+
+		AddCard ()
+
+
+		function RemCard(){
+
+			let delBtn = document.querySelectorAll('.remove_btn');
+
+			console.log(delBtn)
+
+			delBtn.forEach(function(btnClick){
+
+				btnClick.onclick = function(){
+
+					let g = Cart.find(function(el){
+
+						return el.id == btnClick.value;
+
+					});
+
+					if(g.total >1){
+
+						g.total-- 
+
+					}else{
+
+						let f = Cart.indexOf(g);
+
+						Cart.splice(f,1);
+
+					}
+
+					localStorage.setItem('cart', JSON.stringify(Cart));
+
+
+
+					korzina();
+					InpOnch();
+					TotalSum();
+
+				}
+
+			})
+
+		}
+
+
+
+		function korzina(){
+
+			cartI.innerHTML = '';
+
+			if (Cart.length) {
+
+				Cart.forEach(function(elem, index){
+
+					console.log('kart',elem)
+
+
+					cartI.innerHTML += 
+
+					`
+					<div class="collection-item row">
+					<div class="col s6">
+					<h5>${elem.title}</h5>
+					<p>${elem.price} $</p>
+					<p><big>Total: ${elem.price * elem.total}</big></p>
+					<label class='getem' >Count: <input type="number" class='count-input'  value="${elem.total}" min="1" ></label>
+					</div>
+					<div class="col right">
+					<button class="btn red remove_btn" value="${ elem.id }">Remove</button>
+					</div>
+					</div>
+
+					`
+				})
+
+
+
+			}else{
+
+				cartI.innerHTML = `<h3>Cart is empty</h3>`
+			}
+
+			RemCard();
+
+		}
+
+
+
+		function InpOnch(){
+
+			let inpG = document.querySelectorAll('.count-input');
+
+			console.log(inpG)
+
+			inpG.forEach(function(elem,index){
+
+				elem.onchange = function(){
+
+
+					Cart[index].total = +this.value;
+
+					console.log(Cart[index].total);
+
+					this.parentElement.previousElementSibling.children[0].textContent = `Total: ${Cart[index].total * Cart[index].price}`;
+
+					localStorage.setItem('cart', JSON.stringify(Cart));
+
+					TotalSum()
+				}
+
+			})
+
+		}
+
+		function TotalSum(){
+
+
+			let total = 0;
+
+			Cart.forEach(function(elem){
+
+				total += elem.price * elem.total
+
+			})
+
+			console.log(total)
+
+
+			document.querySelector('.total_sum').textContent = `${total}`
+
+
+			
+
+		}
+
+
+		
+		
+
+
+		korzina()
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+
+</body>
+</html>
